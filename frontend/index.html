@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -45,14 +46,16 @@
         <div class="breadcrumb">Workspace <span>/</span> <strong id="breadcrumbTitle">Overview</strong></div>
         <div class="top-actions">
           <span class="system-status"><i></i> Network operational</span>
-          <button class="icon-button" id="resetData" title="Restore demo network">↻</button>
+          <span class="top-clock" id="systemClock">Bengaluru · --:--</span>
+          <button class="icon-button" id="exportData" title="Export network data" aria-label="Export network data">⇩</button>
+          <button class="icon-button" id="resetData" title="Restore demo network" aria-label="Restore demo network">↻</button>
           <div class="top-avatar">TF</div>
         </div>
       </header>
 
       <section class="view active" id="overviewView">
         <div class="page-heading">
-          <div><div class="eyebrow">TUESDAY, CITY OPERATIONS</div><h1>Your city, <span>connected.</span></h1><p>See how your transit network is moving today.</p></div>
+          <div><div class="eyebrow">BENGALURU CITY OPERATIONS</div><h1>Your city, <span>connected.</span></h1><p>Explore Bengaluru landmarks and sample bus corridors.</p></div>
           <button class="primary-button" data-go="planner">＋ Plan a journey</button>
         </div>
         <div class="stats-grid">
@@ -64,41 +67,17 @@
 
         <div class="content-grid">
           <article class="panel map-panel">
-            <div class="panel-heading"><div><h2>City network</h2><p>A live view of routes and interchange hubs</p></div><button class="text-button" data-go="network">Explore network ↗</button></div>
-            <div class="map-legend"><span><i class="legend-dot purple-dot"></i> Bus routes</span><span><i class="legend-dot green-dot"></i> Interchange</span><span><i class="legend-dot orange-dot"></i> Bus in motion</span></div>
-            <div class="city-map" id="cityMap">
-              <svg class="map-art" viewBox="0 0 900 510" role="img" aria-label="Illustrated city map showing bus routes and stops">
-                <defs><pattern id="grid" width="54" height="54" patternUnits="userSpaceOnUse"><path d="M54 0H0V54" fill="none" stroke="#e5eaf1" stroke-width="1.2"/></pattern><filter id="shadow"><feDropShadow dx="0" dy="5" stdDeviation="5" flood-color="#9ba8bb" flood-opacity=".18"/></filter></defs>
-                <rect width="900" height="510" fill="#f4f7f7"/><rect width="900" height="510" fill="url(#grid)"/>
-                <path d="M-20 120 C150 80 230 160 360 130 S620 70 920 140M-20 365 C160 310 230 410 400 360 S650 300 920 390" fill="none" stroke="#e3e9e7" stroke-width="40"/>
-                <path d="M120 -20L180 530M420 -20L370 530M700 -20L650 530" stroke="#e3e9e7" stroke-width="30"/>
-                <path d="M120 -20L180 530M420 -20L370 530M700 -20L650 530" stroke="#fff" stroke-width="2" stroke-dasharray="12 10"/>
-                <g fill="#e1e9df" opacity=".9"><rect x="38" y="30" width="88" height="55" rx="9"/><rect x="215" y="35" width="118" height="62" rx="9"/><rect x="490" y="26" width="105" height="66" rx="9"/><rect x="760" y="40" width="100" height="58" rx="9"/><rect x="45" y="405" width="105" height="62" rx="9"/><rect x="255" y="410" width="88" height="58" rx="9"/><rect x="495" y="415" width="110" height="55" rx="9"/><rect x="755" y="410" width="105" height="60" rx="9"/></g>
-                <g fill="#d4e3d5"><rect x="250" y="170" width="92" height="66" rx="12"/><rect x="520" y="185" width="90" height="65" rx="12"/><rect x="755" y="180" width="95" height="65" rx="12"/></g>
-                <g id="mapRoutes" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M95 285L180 210L300 275L430 190L570 270L720 205L820 285" stroke="#0d9488" stroke-width="7" opacity=".88"/>
-                  <path d="M180 80L180 210L300 275L370 390L560 390L720 310L820 285" stroke="#43a7d9" stroke-width="7" opacity=".88"/>
-                  <path d="M95 285L180 210L300 120L430 190L560 390L720 430" stroke="#e8a04e" stroke-width="7" opacity=".88"/>
-                  <path d="M370 75L430 190L570 270L650 110L820 115" stroke="#54b58b" stroke-width="7" opacity=".88"/>
-                </g>
-                <g id="mapStops" filter="url(#shadow)">
-                  <g class="map-stop" transform="translate(95 285)"><circle r="9"/><text y="-17">West End</text></g>
-                  <g class="map-stop interchange" transform="translate(180 210)"><circle r="11"/><text y="-19">Central Hub</text></g>
-                  <g class="map-stop" transform="translate(300 275)"><circle r="9"/><text y="27">Museum</text></g>
-                  <g class="map-stop interchange" transform="translate(430 190)"><circle r="11"/><text y="-19">City Square</text></g>
-                  <g class="map-stop" transform="translate(570 270)"><circle r="9"/><text y="27">Market</text></g>
-                  <g class="map-stop" transform="translate(720 205)"><circle r="9"/><text y="-17">East Park</text></g>
-                  <g class="map-stop" transform="translate(820 285)"><circle r="9"/><text y="27">Airport</text></g>
-                  <g class="map-stop" transform="translate(370 390)"><circle r="9"/><text y="27">University</text></g>
-                  <g class="map-stop" transform="translate(560 390)"><circle r="9"/><text y="27">Tech Park</text></g>
-                  <g class="map-stop" transform="translate(180 80)"><circle r="9"/><text y="-17">North Gate</text></g>
-                  <g class="map-stop" transform="translate(650 110)"><circle r="9"/><text y="-17">Lake View</text></g>
-                </g>
-                <g class="moving-bus" id="movingBus"><circle r="15" fill="#fff" stroke="#e49b43" stroke-width="3"/><text text-anchor="middle" y="5" font-size="15">🚌</text></g>
-              </svg>
-              <div class="map-scale">ILLUSTRATIVE CITY NETWORK <span>● LIVE DEMO</span></div>
+            <div class="panel-heading"><div><h2>Bengaluru transit map</h2><p>Geographic map with sample corridors and stop markers</p></div><button class="text-button" data-go="network">Explore network ↗</button></div>
+            <div class="map-toolbar">
+              <div class="map-legend"><span><i class="legend-dot purple-dot"></i> Bus corridors</span><span><i class="legend-dot green-dot"></i> Stops</span><span><i class="legend-dot orange-dot"></i> Moving bus</span></div>
+              <div class="map-actions"><button type="button" class="map-action" id="fitMap">⌖ Fit city</button><button type="button" class="map-action active" id="toggleBuses">◉ Buses on</button></div>
             </div>
-            <div class="map-footer"><div><strong>4</strong><span>illustrated corridors</span></div><div><strong id="mapStopCount">18</strong><span>connected stops</span></div><div><strong>3</strong><span>interchange hubs</span></div></div>
+            <div class="city-map bengaluru-map-wrap" id="cityMap">
+              <div id="bengaluruMap" role="application" aria-label="Interactive map of Bengaluru showing sample bus routes"></div>
+              <div class="map-scale">BENGALURU, KARNATAKA <span>● DEMO NETWORK</span></div>
+              <div class="map-attribution-chip">Map data © OpenStreetMap</div>
+            </div>
+            <div class="map-footer"><div><strong id="mapRouteCount">6</strong><span>sample corridors</span></div><div><strong id="mapStopCount">22</strong><span>connected stops</span></div><div><strong id="mapInterchangeCount">4</strong><span>interchange hubs</span></div></div>
           </article>
 
           <article class="panel quick-panel">
@@ -110,6 +89,7 @@
               <button class="primary-button full-button" type="submit">Find best route <span>→</span></button>
             </form>
             <div class="quick-tip"><span>✦</span><p>We optimize for <strong>the fewest buses</strong>, not the shortest distance.</p></div>
+            <div class="data-note"><span>ⓘ</span> Demonstration network · Not official BMTC live route data</div>
           </article>
         </div>
         <article class="panel route-summary">
@@ -155,7 +135,7 @@
         </div>
         <article class="panel concept-panel"><h2>Why Breadth-First Search?</h2><div class="concept-grid"><div><span>01</span><h3>Level-by-level</h3><p>BFS explores all routes reachable with one boarded bus before considering journeys that need another bus.</p></div><div><span>02</span><h3>Minimum buses</h3><p>The first route that contains the destination gives the minimum number of boarded buses.</p></div><div><span>03</span><h3>Efficient search</h3><p>Shared stops connect routes, so overlapping services become interchange points.</p></div></div></article>
       </section>
-      <footer class="footer"><span>© 2026 TransitFlow · City Transit Intelligence</span><span>Designed for connected cities <b>✦</b></span></footer>
+      <footer class="footer"><span>© 2026 TransitFlow · Bengaluru mobility prototype</span><span>Powered by route-level BFS <b>✦</b></span></footer>
     </main>
   </div>
 
@@ -166,6 +146,8 @@
     </div>
   </div>
   <div class="toast" id="toast"></div>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="api.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>

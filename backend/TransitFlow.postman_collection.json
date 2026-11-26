@@ -1,0 +1,71 @@
+{
+  "info": {
+    "name": "TransitFlow API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5000"
+    },
+    {
+      "key": "cityId",
+      "value": ""
+    },
+    {
+      "key": "sourceStopId",
+      "value": ""
+    },
+    {
+      "key": "destinationStopId",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "Health check",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/health"
+      }
+    },
+    {
+      "name": "List cities",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/cities"
+      }
+    },
+    {
+      "name": "List stops",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/stops"
+      }
+    },
+    {
+      "name": "List routes",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/routes"
+      }
+    },
+    {
+      "name": "Plan journey",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"source\": \"{{sourceStopId}}\",\n  \"destination\": \"{{destinationStopId}}\",\n  \"city\": \"{{cityId}}\"\n}"
+        },
+        "url": "{{baseUrl}}/api/journey"
+      }
+    }
+  ]
+}
